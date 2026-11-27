@@ -2,8 +2,9 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { NewListButton, useHeaderActions } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
@@ -13,6 +14,7 @@ import { formatMoney } from "@/lib/money";
 
 export function ListsHome() {
   const queryClient = useQueryClient();
+  const { setActions } = useHeaderActions();
   const lists = useQuery({ queryKey: ["lists"], queryFn: fetchLists });
   const [editor, setEditor] = useState<{ mode: "create" | "rename"; list?: WishList } | null>(null);
   const [pendingDelete, setPendingDelete] = useState<WishList | null>(null);
@@ -32,6 +34,18 @@ export function ListsHome() {
       setError(reason instanceof ApiError ? reason.message : "Não foi possível salvar."),
   });
 
+  useEffect(() => {
+    setActions(
+      <NewListButton
+        onClick={() => {
+          setError(null);
+          setEditor({ mode: "create" });
+        }}
+      />,
+    );
+    return () => setActions(null);
+  }, [setActions]);
+
   const remove = useMutation({
     mutationFn: (id: string) => deleteList(id),
     onSuccess: async () => {
@@ -43,21 +57,8 @@ export function ListsHome() {
   });
 
   return (
-    <section className="mx-auto w-full max-w-5xl">
-      <div className="flex items-center gap-3">
-        <h1 className="min-w-0 flex-1 font-display text-[32px] leading-[1.05] font-semibold">
-          Suas listas
-        </h1>
-        <Button
-          type="button"
-          onClick={() => {
-            setError(null);
-            setEditor({ mode: "create" });
-          }}
-        >
-          Nova lista
-        </Button>
-      </div>
+    <section>
+      <h1 className="font-display text-[32px] leading-[1.05] font-semibold">Suas listas</h1>
       {lists.isPending ? (
         <p className="mt-6 leading-[1.4] text-muted">
           Abrindo suas listas… Se o servidor estiver acordando, a primeira resposta pode levar cerca
@@ -149,11 +150,6 @@ function ListCard({
 }) {
   const pending = list.totals[0];
   const bought = list.purchasedTotals[0];
-  const total = pending
-    ? formatMoney(pending.amount, pending.currency)
-    : list.purchasedTotals.length
-      ? "Nada pendente"
-      : "Sem preços para somar";
   return (
     <article className="flex h-full min-h-[220px] flex-col rounded-3xl bg-cream p-5">
       <Link href={`/list/${list.id}`} className="min-w-0 flex-1">
@@ -175,31 +171,39 @@ function ListCard({
         <span className="mt-2 block text-muted">
           {list.itemCount === 1 ? "1 item" : `${list.itemCount} itens`}
         </span>
-        <span className="mt-2 block font-display text-xl text-forest">Falta comprar {total}</span>
+        {pending ? (
+          <span className="mt-2 block font-display text-xl text-forest">
+            Falta comprar {formatMoney(pending.amount, pending.currency)}
+          </span>
+        ) : list.purchasedTotals.length > 0 ? (
+          <span className="mt-2 block font-display text-xl text-forest">Nada pendente</span>
+        ) : (
+          <span className="mt-2 block text-sm text-muted">Sem preços ainda</span>
+        )}
         {bought ? (
           <span className="block text-muted line-through">
             Já comprado {formatMoney(bought.amount, bought.currency)}
           </span>
         ) : null}
       </Link>
-      <div className="mt-3 flex items-center">
-        {list.shareToken && !list.collaborative ? (
-          <span className="text-xs font-bold text-accent">Link público</span>
-        ) : null}
-        <span className="ml-auto flex items-center">
-          {list.role === "owner" ? (
-            <>
-              <Button type="button" variant="ghost" size="sm" onClick={onRename}>
-                Renomear
-              </Button>
-              <Button type="button" variant="danger" size="sm" onClick={onDelete}>
-                Excluir
-              </Button>
-            </>
-          ) : (
-            <span className="text-sm font-semibold text-muted">{roleLabel(list.role)}</span>
-          )}
+      <div className="mt-4 flex items-center justify-between gap-2">
+        <span className="text-xs font-bold text-accent">
+          {list.shareToken && !list.collaborative
+            ? "Link público"
+            : list.role !== "owner"
+              ? roleLabel(list.role)
+              : ""}
         </span>
+        {list.role === "owner" ? (
+          <span className="flex items-center">
+            <Button type="button" variant="ghost" size="sm" onClick={onRename}>
+              Renomear
+            </Button>
+            <Button type="button" variant="danger" size="sm" onClick={onDelete}>
+              Excluir
+            </Button>
+          </span>
+        ) : null}
       </div>
     </article>
   );

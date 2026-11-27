@@ -346,6 +346,7 @@ export function ListDetail({ listId }: { listId: string }) {
         open={editor != null}
         title={editor?.item ? "Editar item" : "Novo item"}
         onClose={() => setEditor(null)}
+        framed={false}
       >
         {editor ? (
           <ItemForm
