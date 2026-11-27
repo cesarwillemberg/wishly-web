@@ -5,11 +5,10 @@ import Link from "next/link";
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 import { Avatar } from "@/components/avatar";
-import { ThemeMenu } from "@/components/theme-menu";
 import { Menu, MenuContent, MenuItem, MenuTrigger } from "@/components/ui/dropdown-menu";
 import type { SessionUser } from "@/lib/api/parse";
 
-const UserContext = createContext<SessionUser | null>(null);
+export const UserContext = createContext<SessionUser | null>(null);
 const HeaderActionsContext = createContext<{
   actions: ReactNode;
   setActions: (actions: ReactNode) => void;
@@ -26,7 +25,7 @@ export function useHeaderActions() {
 }
 
 export const pageFrame =
-  "mx-auto w-full max-w-5xl px-5 ps-[max(1.25rem,env(safe-area-inset-left))] pe-[max(1.25rem,env(safe-area-inset-right))]";
+  "w-full ps-[max(1rem,env(safe-area-inset-left))] pe-[max(1rem,env(safe-area-inset-right))] md:ps-[max(1.5rem,env(safe-area-inset-left))] md:pe-[max(1.5rem,env(safe-area-inset-right))] lg:ps-[max(2rem,env(safe-area-inset-left))] lg:pe-[max(2rem,env(safe-area-inset-right))]";
 
 export function AppShell({ user, children }: { user: SessionUser; children: ReactNode }) {
   const [actions, setActions] = useState<ReactNode>(null);
@@ -47,7 +46,6 @@ export function AppShell({ user, children }: { user: SessionUser; children: Reac
               </Link>
               <div className="ml-auto flex items-center gap-1">
                 {actions}
-                <ThemeMenu />
                 <AccountMenu user={user} />
               </div>
             </div>

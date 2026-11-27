@@ -24,7 +24,6 @@ export function ItemGroups({
   canDrag,
   reorderHint,
   busyId,
-  wide,
   onAddInCategory,
   onEdit,
   onDelete,
@@ -37,7 +36,6 @@ export function ItemGroups({
   canDrag: boolean;
   reorderHint: string | null;
   busyId: string | null;
-  wide: boolean;
   onAddInCategory: ((categoryId: string | null) => void) | null;
   onEdit: (item: WishItem) => void;
   onDelete: (item: WishItem) => void;
@@ -60,7 +58,6 @@ export function ItemGroups({
           group={group}
           canEdit={canEdit}
           canDrag={canDrag && group.items.length > 1}
-          wide={wide}
           busyId={busyId}
           sensors={sensors}
           onAddInCategory={onAddInCategory}
@@ -80,7 +77,6 @@ function Group({
   lcp,
   canEdit,
   canDrag,
-  wide,
   busyId,
   sensors,
   onAddInCategory,
@@ -94,7 +90,6 @@ function Group({
   lcp: boolean;
   canEdit: boolean;
   canDrag: boolean;
-  wide: boolean;
   busyId: string | null;
   sensors: ReturnType<typeof useSensors>;
   onAddInCategory: ((categoryId: string | null) => void) | null;
@@ -157,13 +152,7 @@ function Group({
               items={group.items.map((item) => item.id)}
               strategy={rectSortingStrategy}
             >
-              <div
-                className={
-                  wide
-                    ? "grid auto-rows-auto grid-cols-[repeat(auto-fill,minmax(220px,256px))] items-stretch gap-4"
-                    : "grid auto-rows-auto items-stretch gap-4"
-                }
-              >
+              <div className="grid auto-rows-auto grid-cols-[repeat(auto-fill,minmax(min(100%,260px),1fr))] items-stretch gap-4">
                 {group.items.map((item, index) => (
                   <ItemCard
                     key={item.id}

@@ -65,7 +65,7 @@ export function ListsHome() {
             Abrindo suas listas… Se o servidor estiver acordando, a primeira resposta pode levar
             cerca de um minuto.
           </p>
-          <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(min(100%,260px),1fr))] gap-4">
             <li className="h-[220px] rounded-3xl bg-cream" />
             <li className="hidden h-[220px] rounded-3xl bg-cream sm:block" />
           </ul>
@@ -89,7 +89,7 @@ export function ListsHome() {
         </div>
       ) : null}
       {lists.data && lists.data.length > 0 ? (
-        <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <ul className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(min(100%,260px),1fr))] gap-4">
           {lists.data.map((list) => (
             <li key={list.id}>
               <ListCard
