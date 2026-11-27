@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { API_TIMEOUT_MS, apiBaseUrl } from "@/lib/api/client";
 import { SESSION_COOKIE } from "@/lib/auth/cookie";
 import { allowedBackendPath } from "@/lib/bff-path";
+import { compressImage } from "@/lib/image-compress";
 
 type RouteContext = { params: Promise<{ path: string[] }> };
 
@@ -38,10 +39,25 @@ async function proxy(request: Request, context: RouteContext, method: string) {
     });
     const payload = await response.arrayBuffer();
     const outgoing = new Headers();
-    const type = response.headers.get("content-type");
-    if (type && response.status !== 204) outgoing.set("content-type", type);
+    const type = response.headers.get("content-type") ?? "";
     outgoing.set("cache-control", "private, no-store");
     if (response.status === 204) return new NextResponse(null, { status: 204, headers: outgoing });
+    if (response.ok && backendPath.endsWith("/image") && type.startsWith("image/")) {
+      try {
+        const compressed = await compressImage(payload, type, request.headers.get("accept") ?? "");
+        if (compressed) {
+          outgoing.set("content-type", compressed.type);
+          outgoing.set("vary", "accept");
+          return new NextResponse(new Uint8Array(compressed.body), {
+            status: response.status,
+            headers: outgoing,
+          });
+        }
+      } catch (error) {
+        console.error("image compress failed", error);
+      }
+    }
+    if (type) outgoing.set("content-type", type);
     return new NextResponse(payload.byteLength > 0 ? payload : null, {
       status: response.status,
       headers: outgoing,

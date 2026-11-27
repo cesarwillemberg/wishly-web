@@ -53,9 +53,10 @@ export function ItemGroups({
   return (
     <div className="mt-2">
       {reorderHint ? <p className="mb-3 text-sm text-muted">{reorderHint}</p> : null}
-      {groups.map((group) => (
+      {groups.map((group, groupIndex) => (
         <Group
           key={group.id ?? "none"}
+          lcp={groupIndex === groups.findIndex((entry) => entry.items.length > 0)}
           group={group}
           canEdit={canEdit}
           canDrag={canDrag && group.items.length > 1}
@@ -76,6 +77,7 @@ export function ItemGroups({
 
 function Group({
   group,
+  lcp,
   canEdit,
   canDrag,
   wide,
@@ -89,6 +91,7 @@ function Group({
   onReorder,
 }: {
   group: ItemGroup<WishItem>;
+  lcp: boolean;
   canEdit: boolean;
   canDrag: boolean;
   wide: boolean;
@@ -161,10 +164,11 @@ function Group({
                     : "grid auto-rows-auto items-stretch gap-4"
                 }
               >
-                {group.items.map((item) => (
+                {group.items.map((item, index) => (
                   <ItemCard
                     key={item.id}
                     item={item}
+                    priority={lcp && index === 0}
                     canEdit={canEdit}
                     draggingEnabled={canDrag}
                     busy={busyId === item.id}

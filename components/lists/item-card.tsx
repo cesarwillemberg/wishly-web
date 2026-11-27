@@ -6,6 +6,7 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { MoreVertical } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 
 import { Menu, MenuContent, MenuItem, MenuTrigger } from "@/components/ui/dropdown-menu";
@@ -31,6 +32,7 @@ export function ItemCard({
   canEdit,
   draggingEnabled,
   busy,
+  priority = false,
   onEdit,
   onDelete,
   onRefresh,
@@ -40,6 +42,7 @@ export function ItemCard({
   canEdit: boolean;
   draggingEnabled: boolean;
   busy: boolean;
+  priority?: boolean;
   onEdit: () => void;
   onDelete: () => void;
   onRefresh: () => void;
@@ -79,13 +82,16 @@ export function ItemCard({
         {...(draggingEnabled ? { ...sortable.attributes, ...sortable.listeners } : {})}
       >
         {showImage ? (
-          // Product photos come from the authenticated image proxy.
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={itemImageSrc(item)}
             alt=""
-            className={`absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] object-contain ${item.purchased ? "opacity-45 grayscale" : ""}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 320px"
+            className={`object-contain p-3 ${item.purchased ? "opacity-45 grayscale" : ""}`}
             draggable={false}
+            unoptimized
+            priority={priority}
+            loading={priority ? "eager" : "lazy"}
             onError={() => setImageFailed(true)}
           />
         ) : (

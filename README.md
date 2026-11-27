@@ -21,13 +21,20 @@ Abra http://localhost:3000. A primeira chamada ao Render no plano gratuito pode 
 
 `localhost` e `127.0.0.1` em qualquer porta já entram no regex de CORS do backend. O login deste site não depende disso: o browser fala só com o Next.js, e o servidor coloca o `Authorization: Bearer`.
 
-## Variável de ambiente
+## Variáveis de ambiente
 
-| Nome           | Onde                  | Valor                                                           |
-| -------------- | --------------------- | --------------------------------------------------------------- |
-| `API_BASE_URL` | `.env.local` e Vercel | `https://lista-desejos-backend.onrender.com` (sem barra no fim) |
+Defina estas variáveis em `.env.local` e em Settings → Environment Variables na Vercel (Production e Preview).
 
-Não use o prefixo `NEXT_PUBLIC_`. A URL fica no servidor.
+| Nome                        | Obrigatória | Valor                                                                                                                          |
+| --------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `API_BASE_URL`              | sim         | `https://lista-desejos-backend.onrender.com` (sem barra no fim). Só o servidor lê. Não use o prefixo `NEXT_PUBLIC_`.           |
+| `NEXT_PUBLIC_SITE_URL`      | não         | Origem canônica, sem barra no fim. Padrão: `https://wishly-web-sigma.vercel.app`. Entra em canonical, Open Graph e no sitemap. |
+| `NEXT_PUBLIC_GA4_ID`        | não         | ID do GA4, no formato `G-XXXXXXXX`. Vazio não carrega o script.                                                                |
+| `NEXT_PUBLIC_GOOGLE_ADS_ID` | não         | ID do Google Ads, no formato `AW-XXXXXXXX`. Vazio não carrega o script.                                                        |
+| `NEXT_PUBLIC_META_PIXEL_ID` | não         | ID numérico do Meta Pixel. Vazio não carrega o script.                                                                         |
+| `NEXT_PUBLIC_CLARITY_ID`    | não         | ID do projeto no Microsoft Clarity. Vazio não carrega o script.                                                                |
+
+Os quatro pixels ficam de fora do HTML inicial. O navegador só pede o JavaScript de cada um depois do primeiro `pointerdown`, `keydown`, `scroll` ou `touchstart`. Não há espera ociosa: sem interação, nenhum desses scripts entra na página. Um ID vazio ou fora do formato do fornecedor também não é injetado.
 
 ## Scripts
 
@@ -37,7 +44,7 @@ npm run build          # produção
 npm run start          # servir o build
 npm run lint           # ESLint
 npm run format         # Prettier
-npm test               # rotas hash e leitura da conta
+npm test               # rotas hash, conta, pixels e o JSON-LD
 npm run api:generate   # regera lib/api/schema.d.ts a partir de openapi/wishly.json
 ```
 
@@ -46,7 +53,7 @@ O spec em `openapi/wishly.json` é uma cópia de `https://lista-desejos-backend.
 ## Deploy na Vercel (Hobby)
 
 1. Importe este repositório na Vercel. O framework é Next.js. Deixe os comandos de build e o diretório padrão.
-2. Em Settings → Environment Variables, defina `API_BASE_URL` com a URL acima, para Production e Preview.
+2. Em Settings → Environment Variables, defina `API_BASE_URL` com a URL acima, para Production e Preview. Se o domínio canônico não for `https://wishly-web-sigma.vercel.app`, defina também `NEXT_PUBLIC_SITE_URL`. Os IDs de GA4, Google Ads, Meta Pixel e Clarity são opcionais: sem eles o site não chama esses serviços.
 3. Faça o deploy. O plano Hobby serve o App Router com os Route Handlers.
 
 Não é preciso `output: 'export'`. O site precisa do servidor para o cookie httpOnly.

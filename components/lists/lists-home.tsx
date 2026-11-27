@@ -60,10 +60,16 @@ export function ListsHome() {
     <section>
       <h1 className="font-display text-[32px] leading-[1.05] font-semibold">Suas listas</h1>
       {lists.isPending ? (
-        <p className="mt-6 leading-[1.4] text-muted">
-          Abrindo suas listas… Se o servidor estiver acordando, a primeira resposta pode levar cerca
-          de um minuto.
-        </p>
+        <div className="mt-6">
+          <p className="min-h-12 leading-[1.4] text-muted">
+            Abrindo suas listas… Se o servidor estiver acordando, a primeira resposta pode levar
+            cerca de um minuto.
+          </p>
+          <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <li className="h-[220px] rounded-3xl bg-cream" />
+            <li className="hidden h-[220px] rounded-3xl bg-cream sm:block" />
+          </ul>
+        </div>
       ) : null}
       {lists.isError ? (
         <div className="mt-6">

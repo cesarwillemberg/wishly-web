@@ -39,12 +39,16 @@ export function PublicSoon({ title, body }: { title: string; body: string }) {
 export function PrivateFallback() {
   return (
     <div className="flex min-h-dvh flex-col bg-paper text-ink">
-      <div className="h-20 bg-brand pt-[env(safe-area-inset-top)]" />
-      <div className="mx-auto w-full max-w-3xl px-5 py-8">
-        <p className="font-display text-2xl font-semibold">Abrindo o Wishly…</p>
-        <p className="mt-2 leading-[1.4] text-muted">
-          Se o servidor estiver acordando, a primeira resposta pode levar cerca de um minuto.
+      <header className="bg-brand pt-[env(safe-area-inset-top)]">
+        <div className="h-16" />
+      </header>
+      <div className="w-full px-5 py-6">
+        <div className="h-9 w-48 rounded-lg bg-cream" />
+        <p className="mt-4 min-h-12 max-w-md leading-[1.4] text-muted">
+          Abrindo o Wishly… Se o servidor estiver acordando, a primeira resposta pode levar cerca de
+          um minuto.
         </p>
+        <div className="mt-5 h-[220px] max-w-sm rounded-3xl bg-cream" />
       </div>
     </div>
   );
