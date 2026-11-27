@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
+/* Class strategy so the saved choice (wishly_theme) wins over the system. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Tokens from wishly-mobile lib/theme/tokens.dart.
+  Spacing s1…s16 is the Tailwind scale (4px). Breakpoints stay 640/768/1024/1280.
+  Radius sm/md/lg/xl/2xl map to 4/8/12/16/24. Cards use rounded-3xl (24px).
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f3eee6;
+  --ink: #241c17;
+  --cream: #fffcf8;
+  --surface: #ffffff;
+  --muted: #746c62;
+  --line: #e4dcd0;
+  --forest: #1e5c45;
+  --danger: #9c341f;
+  --note: #f6e7d4;
+  --chip: #f3d2c4;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--cream);
+  --primary: #e25b2a;
+  --primary-foreground: #ffffff;
+  --border: var(--line);
+  --ring: #e25b2a;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #1a1410;
+  --ink: #f3eee6;
+  --cream: #241c17;
+  --surface: #2c241e;
+  --muted: #b7ada3;
+  --line: #8a7d72;
+  --forest: #8fcbb2;
+  --danger: #ffb4a2;
+  --note: #3a2a22;
+  --chip: #4a3024;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--cream);
+  --border: var(--line);
+  color-scheme: dark;
 }
 
 @theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-cream: var(--cream);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: #e25b2a;
+  --color-forest: var(--forest);
+  --color-danger: var(--danger);
+  --color-note: var(--note);
+  --color-chip: var(--chip);
+  --color-brand: #241c17;
+  --color-brand-cream: #fffcf8;
+  --color-on-ink: #d7cdc2;
+  --color-on-ink-muted: #b7ada3;
+  --color-avatar: #5c4e44;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--cream);
+  --color-secondary-foreground: var(--ink);
+  --color-muted-foreground: var(--muted);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--ring);
+  --color-destructive: var(--danger);
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: 24px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
 }
