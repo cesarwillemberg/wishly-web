@@ -9,7 +9,7 @@ import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ItemForm } from "@/components/lists/item-form";
 import { ItemGroups } from "@/components/lists/item-groups";
 import { ListSidebar } from "@/components/lists/sidebar";
-import { ThemeMenu } from "@/components/theme-menu";
+import { pageFrame } from "@/components/app-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
@@ -56,18 +56,6 @@ function useSavedSort(listId: string): [SortKey, (value: SortKey) => void] {
   return [sort, setSort];
 }
 
-function useWideScreen() {
-  return useSyncExternalStore(
-    (onChange) => {
-      const media = window.matchMedia("(min-width: 1024px)");
-      media.addEventListener("change", onChange);
-      return () => media.removeEventListener("change", onChange);
-    },
-    () => window.matchMedia("(min-width: 1024px)").matches,
-    () => false,
-  );
-}
-
 export function ListDetail({ listId }: { listId: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -95,7 +83,6 @@ export function ListDetail({ listId }: { listId: string }) {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [sort, setSort] = useSavedSort(listId);
   const [drawer, setDrawer] = useState(false);
-  const wide = useWideScreen();
   const [editor, setEditor] = useState<{ item: WishItem | null; categoryId: string | null } | null>(
     null,
   );
@@ -224,7 +211,9 @@ export function ListDetail({ listId }: { listId: string }) {
         </div>
       ) : null}
       <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-        <header className="flex items-center gap-1 bg-paper px-2 pt-[env(safe-area-inset-top)] ps-[max(0.5rem,env(safe-area-inset-left))] pe-[max(0.5rem,env(safe-area-inset-right))]">
+        <header
+          className={`${pageFrame} flex items-center gap-1 bg-paper pt-[env(safe-area-inset-top)]`}
+        >
           <button
             type="button"
             aria-label="Listas"
@@ -241,7 +230,6 @@ export function ListDetail({ listId }: { listId: string }) {
               {list.role === "editor" ? "Pode editar" : "Só pode ver"}
             </span>
           ) : null}
-          <ThemeMenu onDark={false} />
           {canEdit ? (
             <button
               type="button"
@@ -253,7 +241,7 @@ export function ListDetail({ listId }: { listId: string }) {
             </button>
           ) : null}
         </header>
-        <main className="flex-1 px-4 py-3 pb-[max(1rem,env(safe-area-inset-bottom))] ps-[max(1rem,env(safe-area-inset-left))] pe-[max(1rem,env(safe-area-inset-right))]">
+        <main className={`${pageFrame} flex-1 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]`}>
           <Totals
             totals={totals}
             budget={list?.budget ?? null}
@@ -311,7 +299,6 @@ export function ListDetail({ listId }: { listId: string }) {
                   : "A ordenação manual está desligada. Escolha Manual para arrastar os cards."
               }
               busyId={busyId}
-              wide={wide}
               onAddInCategory={
                 canEdit ? (categoryId) => setEditor({ item: null, categoryId }) : null
               }

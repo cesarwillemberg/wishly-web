@@ -83,7 +83,7 @@ export function ListsHome() {
         </div>
       ) : null}
       {lists.data && lists.data.length > 0 ? (
-        <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <ul className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(min(100%,260px),1fr))] gap-4">
           {lists.data.map((list) => (
             <li key={list.id}>
               <ListCard
