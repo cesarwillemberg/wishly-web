@@ -72,10 +72,10 @@ export function ItemCard({
     <article
       ref={sortable.setNodeRef}
       style={style}
-      className={`flex h-full flex-col overflow-hidden rounded-3xl bg-cream ${sortable.isDragging ? "opacity-70" : ""} ${item.purchased ? "opacity-80" : ""}`}
+      className={`flex h-full min-h-min flex-col rounded-3xl bg-cream ${sortable.isDragging ? "opacity-70" : ""} ${item.purchased ? "opacity-80" : ""}`}
     >
       <div
-        className="relative aspect-[155/100] overflow-hidden bg-surface"
+        className="relative aspect-[155/100] shrink-0 overflow-hidden rounded-t-3xl bg-surface"
         {...(draggingEnabled ? { ...sortable.attributes, ...sortable.listeners } : {})}
       >
         {showImage ? (
@@ -84,7 +84,7 @@ export function ItemCard({
           <img
             src={itemImageSrc(item)}
             alt=""
-            className={`absolute inset-0 h-full w-full object-cover ${item.purchased ? "opacity-45 grayscale" : ""}`}
+            className={`absolute inset-3 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)] object-contain ${item.purchased ? "opacity-45 grayscale" : ""}`}
             draggable={false}
             onError={() => setImageFailed(true)}
           />
@@ -94,9 +94,9 @@ export function ItemCard({
           </div>
         )}
       </div>
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="line-clamp-2 min-h-[2.6em] font-display text-xl leading-[1.15] font-semibold">
-          {item.name}
+      <div className="flex min-h-0 flex-1 flex-col p-4">
+        <h3 className="h-[2.5em] overflow-hidden font-display text-xl leading-[1.25] font-semibold">
+          <span className="line-clamp-2">{item.name}</span>
         </h3>
         {item.store ? (
           <p className="mt-1 truncate text-sm text-muted">{item.store}</p>
@@ -117,14 +117,16 @@ export function ItemCard({
         </p>
         {details ? <p className="mt-2 text-sm text-muted">{details}</p> : null}
         {item.note ? (
-          <p className="mt-2 line-clamp-2 text-sm leading-[1.4] text-ink">{item.note}</p>
+          <p className="mt-2 line-clamp-2 max-h-[2.8em] overflow-hidden text-sm leading-[1.4] text-ink">
+            {item.note}
+          </p>
         ) : null}
         {item.message && item.status !== "ok" ? (
           <p className="mt-2 text-sm leading-[1.4] text-danger">
             {conciseScrapeMessage(item.message)}
           </p>
         ) : null}
-        <div className="mt-auto flex items-center gap-2 pt-3">
+        <div className="mt-auto flex shrink-0 items-center gap-2 pt-3">
           {canEdit ? (
             <button
               type="button"

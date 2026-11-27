@@ -157,8 +157,8 @@ function Group({
               <div
                 className={
                   wide
-                    ? "grid grid-cols-[repeat(auto-fill,minmax(220px,256px))] items-stretch gap-4"
-                    : "grid gap-4"
+                    ? "grid auto-rows-auto grid-cols-[repeat(auto-fill,minmax(220px,256px))] items-stretch gap-4"
+                    : "grid auto-rows-auto items-stretch gap-4"
                 }
               >
                 {group.items.map((item) => (
