@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Link from "next/link";
 import { Menu, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
@@ -198,7 +197,7 @@ export function ListDetail({ listId }: { listId: string }) {
 
   return (
     <div className="flex h-dvh overflow-hidden bg-paper text-ink">
-      <div className="hidden w-[280px] shrink-0 lg:block">{sidebar}</div>
+      <div className="hidden h-full w-[280px] shrink-0 lg:block">{sidebar}</div>
       {drawer ? (
         <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setDrawer(false)}>
           <div className="absolute inset-0 bg-[rgb(26_20_16/0.45)]" />
@@ -322,11 +321,6 @@ export function ListDetail({ listId }: { listId: string }) {
               </Button>
             </div>
           ) : null}
-          <p className="mt-6 lg:hidden">
-            <Link href="/configuracoes" className="font-semibold text-ink">
-              Configurações
-            </Link>
-          </p>
         </main>
       </div>
       <Modal

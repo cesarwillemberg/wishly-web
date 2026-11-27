@@ -8,7 +8,7 @@ import { Avatar } from "@/components/avatar";
 import { Menu, MenuContent, MenuItem, MenuTrigger } from "@/components/ui/dropdown-menu";
 import type { SessionUser } from "@/lib/api/parse";
 
-const UserContext = createContext<SessionUser | null>(null);
+export const UserContext = createContext<SessionUser | null>(null);
 const HeaderActionsContext = createContext<{
   actions: ReactNode;
   setActions: (actions: ReactNode) => void;
