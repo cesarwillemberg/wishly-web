@@ -95,3 +95,16 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
 }
+
+/* Scroll without the native bar, so it never paints over the dialog radius. */
+.modal-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior: contain;
+}
+
+.modal-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}

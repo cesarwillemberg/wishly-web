@@ -27,6 +27,11 @@ export const metadata: Metadata = {
     template: "%s · Wishly",
   },
   description: "Suas listas de desejos, com foto e preço da loja.",
+  applicationName: "Wishly",
+  appleWebApp: {
+    title: "Wishly",
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export const viewport: Viewport = {
