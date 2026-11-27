@@ -1,10 +1,5 @@
-import { Soon } from "@/components/placeholders";
+import { ListsHome } from "@/components/lists/lists-home";
 
 export default function ListsPage() {
-  return (
-    <Soon
-      title="Suas listas"
-      body="A conta já está neste aparelho. Criar, abrir e organizar as listas entra na próxima etapa."
-    />
-  );
+  return <ListsHome />;
 }
