@@ -61,10 +61,13 @@ export function AppShell({ user, children }: { user: SessionUser; children: Reac
                     Configurações
                   </Link>
                 </MenuItem>
-                <MenuItem asChild>
-                  <button type="submit" form="logout-form" className="w-full text-left">
-                    Sair
-                  </button>
+                <MenuItem
+                  onSelect={() => {
+                    const form = document.getElementById("logout-form");
+                    if (form instanceof HTMLFormElement) form.requestSubmit();
+                  }}
+                >
+                  Sair
                 </MenuItem>
               </MenuContent>
             </Menu>

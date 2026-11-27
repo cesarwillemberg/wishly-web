@@ -1,3 +1,4 @@
+import { io } from "next/cache";
 import { redirect } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
 
@@ -14,6 +15,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
 }
 
 async function PrivateFrame({ children }: { children: ReactNode }) {
+  await io();
   const session = await loadSession();
   if (session.status === "anonymous") redirect("/entrar");
   if (session.status === "invalid") {
