@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
+
 import { Soon } from "@/components/placeholders";
+
+export const metadata: Metadata = {
+  title: "Adicionar da web",
+  description: "Guardar um link compartilhado pelo navegador.",
+  alternates: { canonical: "/compartilhar" },
+};
 
 export default function ShareInPlaceholder() {
   return (

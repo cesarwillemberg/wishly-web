@@ -1,10 +1,15 @@
 import { io } from "next/cache";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
 
 import { PrivateChrome } from "@/components/private-chrome";
 import { PrivateFallback, Unreachable } from "@/components/placeholders";
 import { loadSession } from "@/lib/auth/session";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
   return (
