@@ -2,7 +2,7 @@ import { io } from "next/cache";
 import { redirect } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
 
-import { AppShell } from "@/components/app-shell";
+import { PrivateChrome } from "@/components/private-chrome";
 import { PrivateFallback, Unreachable } from "@/components/placeholders";
 import { loadSession } from "@/lib/auth/session";
 
@@ -23,5 +23,5 @@ async function PrivateFrame({ children }: { children: ReactNode }) {
     redirect(`/api/auth/clear${next}`);
   }
   if (session.status === "unreachable") return <Unreachable message={session.message} />;
-  return <AppShell user={session.user}>{children}</AppShell>;
+  return <PrivateChrome user={session.user}>{children}</PrivateChrome>;
 }

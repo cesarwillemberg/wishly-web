@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Outfit } from "next/font/google";
 
 import { HashRedirect } from "@/components/hash-redirect";
+import { QueryProvider } from "@/components/query-provider";
 import { THEME_BOOT_SCRIPT, ThemeProvider } from "@/components/theme-provider";
 import { HASH_REDIRECT_SCRIPT } from "@/lib/navigation";
 
@@ -49,8 +50,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: HASH_REDIRECT_SCRIPT }} />
         <ThemeProvider>
-          <HashRedirect />
-          {children}
+          <QueryProvider>
+            <HashRedirect />
+            {children}
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -11,14 +11,18 @@ const OPTIONS: { value: ThemeChoice; label: string }[] = [
   { value: "dark", label: "Escuro" },
 ];
 
-export function ThemeMenu() {
+export function ThemeMenu({ onDark = true }: { onDark?: boolean }) {
   const { theme, setTheme } = useTheme();
 
   return (
     <Menu>
       <MenuTrigger
         aria-label="Aparência"
-        className="grid size-12 cursor-pointer place-items-center rounded-lg text-brand-cream outline-none hover:bg-white/10 focus-visible:ring-[1.4px] focus-visible:ring-accent"
+        className={
+          onDark
+            ? "grid size-12 cursor-pointer place-items-center rounded-lg text-brand-cream outline-none hover:bg-white/10 focus-visible:ring-[1.4px] focus-visible:ring-accent"
+            : "grid size-12 cursor-pointer place-items-center rounded-lg text-ink outline-none hover:bg-accent/10 focus-visible:ring-[1.4px] focus-visible:ring-accent"
+        }
       >
         <Contrast className="size-5" />
       </MenuTrigger>
