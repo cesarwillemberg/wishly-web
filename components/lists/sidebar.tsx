@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronUp, List, LogOut, Plus, Settings, Tags } from "lucide-react";
+import { ChevronUp, List, LogOut, Plus, Settings } from "lucide-react";
 import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
 
@@ -17,13 +17,11 @@ export function ListSidebar({
   currentId,
   onClose,
   onCreated,
-  onCategories,
 }: {
   lists: WishList[];
   currentId: string;
   onClose: () => void;
   onCreated: (list: WishList) => void;
-  onCategories?: () => void;
 }) {
   const user = useSessionUser();
   const logoutFormId = useId();
@@ -130,12 +128,6 @@ export function ListSidebar({
             Nova lista
           </button>
         )}
-        {onCategories ? (
-          <button type="button" className={actionClass} onClick={onCategories}>
-            <Tags className="size-4" />
-            Categorias
-          </button>
-        ) : null}
         <form id={logoutFormId} action="/api/auth/logout" method="post" />
         <Menu>
           <MenuTrigger className="mt-1 flex w-full cursor-pointer items-center gap-3 rounded-xl px-2.5 py-2 text-left outline-none hover:bg-paper focus-visible:ring-[1.4px] focus-visible:ring-accent">

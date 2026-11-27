@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Menu, Plus } from "lucide-react";
+import { Menu, Plus, Tags } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 
@@ -184,14 +184,6 @@ export function ListDetail({ listId }: { listId: string }) {
         await queryClient.invalidateQueries({ queryKey: ["lists"] });
         router.push(`/list/${created.id}`);
       }}
-      onCategories={
-        canEdit
-          ? () => {
-              setDrawer(false);
-              setCategoriesOpen(true);
-            }
-          : undefined
-      }
     />
   );
 
@@ -210,35 +202,51 @@ export function ListDetail({ listId }: { listId: string }) {
         </div>
       ) : null}
       <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-        <header
-          className={`${pageFrame} flex items-center gap-1 bg-paper pt-[env(safe-area-inset-top)]`}
-        >
-          <button
-            type="button"
-            aria-label="Listas"
-            className="grid size-12 place-items-center lg:hidden"
-            onClick={() => setDrawer(true)}
-          >
-            <Menu className="size-5" />
-          </button>
-          <h1 className="min-w-0 flex-1 truncate font-display text-2xl font-semibold">
-            {list?.name ?? "Lista"}
-          </h1>
-          {list && list.role !== "owner" ? (
-            <span className="text-xs font-bold text-muted">
-              {list.role === "editor" ? "Pode editar" : "Só pode ver"}
-            </span>
-          ) : null}
-          {canEdit ? (
+        <header className={`${pageFrame} bg-paper pt-[env(safe-area-inset-top)]`}>
+          <div className="flex min-h-16 items-center gap-2">
             <button
               type="button"
-              aria-label="Adicionar"
-              className="grid size-12 place-items-center text-accent"
-              onClick={() => setEditor({ item: null, categoryId: null })}
+              aria-label="Listas"
+              className="grid size-12 shrink-0 place-items-center lg:hidden"
+              onClick={() => setDrawer(true)}
             >
-              <Plus className="size-6" />
+              <Menu className="size-5" />
             </button>
-          ) : null}
+            <div className="min-w-0 flex-1">
+              <h1 className="truncate font-display text-2xl leading-none font-semibold">
+                {list?.name ?? "Lista"}
+              </h1>
+              {list && list.role !== "owner" ? (
+                <p className="mt-1 truncate text-xs font-bold text-muted">
+                  {list.role === "editor" ? "Pode editar" : "Só pode ver"}
+                </p>
+              ) : null}
+            </div>
+            {canEdit ? (
+              <div className="flex shrink-0 items-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="px-2.5 sm:px-3"
+                  aria-label="Categorias"
+                  title="Categorias"
+                  onClick={() => setCategoriesOpen(true)}
+                >
+                  <Tags />
+                  <span className="hidden sm:inline">Categorias</span>
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => setEditor({ item: null, categoryId: null })}
+                >
+                  <Plus />
+                  Novo item
+                </Button>
+              </div>
+            ) : null}
+          </div>
         </header>
         <main className={`${pageFrame} flex-1 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]`}>
           <Totals
@@ -309,17 +317,6 @@ export function ListDetail({ listId }: { listId: string }) {
                 void move(categoryId, oldIndex, newIndex)
               }
             />
-          ) : null}
-          {canEdit ? (
-            <div className="mt-4 lg:hidden">
-              <Button
-                type="button"
-                className="w-full"
-                onClick={() => setEditor({ item: null, categoryId: null })}
-              >
-                Adicionar
-              </Button>
-            </div>
           ) : null}
         </main>
       </div>
