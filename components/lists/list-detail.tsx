@@ -210,7 +210,7 @@ export function ListDetail({ listId }: { listId: string }) {
   );
 
   return (
-    <div className="flex min-h-dvh bg-paper text-ink">
+    <div className="flex h-dvh overflow-hidden bg-paper text-ink">
       <div className="hidden w-[280px] shrink-0 lg:block">{sidebar}</div>
       {drawer ? (
         <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setDrawer(false)}>
@@ -223,7 +223,7 @@ export function ListDetail({ listId }: { listId: string }) {
           </div>
         </div>
       ) : null}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
         <header className="flex items-center gap-1 bg-paper px-2 pt-[env(safe-area-inset-top)] ps-[max(0.5rem,env(safe-area-inset-left))] pe-[max(0.5rem,env(safe-area-inset-right))]">
           <button
             type="button"

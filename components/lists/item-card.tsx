@@ -75,7 +75,7 @@ export function ItemCard({
       className={`flex h-full flex-col overflow-hidden rounded-3xl bg-cream ${sortable.isDragging ? "opacity-70" : ""} ${item.purchased ? "opacity-80" : ""}`}
     >
       <div
-        className="relative aspect-[155/100] bg-surface"
+        className="relative aspect-[155/100] overflow-hidden bg-surface"
         {...(draggingEnabled ? { ...sortable.attributes, ...sortable.listeners } : {})}
       >
         {showImage ? (
@@ -84,7 +84,7 @@ export function ItemCard({
           <img
             src={itemImageSrc(item)}
             alt=""
-            className={`h-full w-full object-cover ${item.purchased ? "opacity-45 grayscale" : ""}`}
+            className={`absolute inset-0 h-full w-full object-cover ${item.purchased ? "opacity-45 grayscale" : ""}`}
             draggable={false}
             onError={() => setImageFailed(true)}
           />

@@ -2,7 +2,7 @@
 
 Site do Wishly em Next.js. O app de Android e iOS continua em Flutter ([wishly-mobile](https://github.com/cesarwillemberg/wishly-mobile)). A API continua o FastAPI no Render ([wishly-core-api](https://github.com/cesarwillemberg/wishly-core-api)), sem rota nova.
 
-Esta versão cobre a preparação e a base: tema claro e escuro, entrar, criar conta, sessão e sair. As listas entram na etapa seguinte. A página **Suas listas** depois do login é um espaço reservado.
+Esta versão cobre a base (tema, entrar, criar conta, sessão) e as listas: criar, renomear, excluir, abrir o detalhe, adicionar e editar itens, marcar comprado, filtrar e reordenar no modo Manual. Compartilhar, reservas e a conta completa entram nas etapas seguintes.
 
 ## Requisitos
 

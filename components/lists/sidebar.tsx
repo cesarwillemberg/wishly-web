@@ -47,7 +47,7 @@ export function ListSidebar({
   }
 
   return (
-    <aside className="flex h-full min-h-dvh flex-col bg-brand pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] text-brand-cream">
+    <aside className="flex h-dvh flex-col bg-brand pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] text-brand-cream">
       <div className="px-4 py-3">
         <Link href="/" className="inline-flex h-12 items-center font-semibold" onClick={onClose}>
           ← Suas listas

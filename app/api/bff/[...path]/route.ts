@@ -39,10 +39,15 @@ async function proxy(request: Request, context: RouteContext, method: string) {
     const payload = await response.arrayBuffer();
     const outgoing = new Headers();
     const type = response.headers.get("content-type");
-    if (type) outgoing.set("content-type", type);
+    if (type && response.status !== 204) outgoing.set("content-type", type);
     outgoing.set("cache-control", "private, no-store");
-    return new NextResponse(payload, { status: response.status, headers: outgoing });
+    if (response.status === 204) return new NextResponse(null, { status: 204, headers: outgoing });
+    return new NextResponse(payload.byteLength > 0 ? payload : null, {
+      status: response.status,
+      headers: outgoing,
+    });
   } catch (error) {
+    console.error("bff proxy failed", error);
     const timedOut =
       error instanceof Error && (error.name === "AbortError" || error.name === "TimeoutError");
     return NextResponse.json(
